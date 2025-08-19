@@ -3,8 +3,8 @@ document.getElementById("remove").addEventListener("click",checkoutBook)
 document.getElementById("update").addEventListener("click",editBook)
 document.getElementById("read").addEventListener("click",viewBook)
 document.getElementById("all").addEventListener("click",viewAll)
-initLoad()
 let all = true
+initLoad()
 function addBook(){
     title = document.getElementById("titleField").value
     author = document.getElementById("authorField").value
@@ -25,39 +25,36 @@ function viewAll(){
     }
     else{
         document.getElementById("all").style.color = "red"
-        Array.from(document.getElementsByClassName("temp")).forEach(element => {
-            console.log(element)
+        const tds = document.querySelectorAll('td');
+        tds.forEach(element => {
             element.parentNode.removeChild(element)
+        });
+        Array.from(document.getElementsByClassName("temp")).forEach(element => {
+            element.parentNode.removeChild(element);
         });
         all = true
         return
         }
+    let table = document.getElementById("display")
     for (var i = 0; i < localStorage.length; i++){
         book = localStorage.getItem(localStorage.key(i))
-        // const display = document.createElement("div");
-        // const table = document.createElement("table");
-        // const tr = document.createElement("tr")
-        const title = document.createElement("p");
-        const author = document.createElement("p");
-        const pages = document.createElement("p");
-        title.setAttribute("class","temp")
-        author.setAttribute("class","temp")
-        pages.setAttribute("class","temp")
+        tr = document.createElement("tr");
+        tr.classList.add("temp");
+        const title = document.createElement("td");
+        const author = document.createElement("td");
+        const pages = document.createElement("td");
 
         p = JSON.parse(book);
         title.innerText = p.title
         author.innerText = p.author
         pages.innerText = p.pages
-        document.body.appendChild(title);
-        document.body.appendChild(author);
-        document.body.appendChild(pages);
-
+        tr.append(title,author,pages);
+        table.append(tr);
     }
 }
 function viewBook(){
     title = document.getElementById("titleField").value
     book = JSON.parse(localStorage.getItem(title))
-    console.log(book)
     displayBook(book)
 }
 function checkoutBook(){
@@ -77,7 +74,7 @@ function displayBook(book){
 }
 function initLoad(){
     
-array.forEach(element => {
+data.forEach(element => {
     localStorage.setItem(element.title,JSON.stringify(element))
 });
 }
